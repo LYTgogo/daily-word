@@ -23,8 +23,14 @@
 
 缓存更新需用户点击；更新使用 service worker controllerchange 刷新页面，避免首次打开时 Workbox 的初始 isUpdate=false 导致更新按钮无效。缓存切换不修改 IndexedDB。
 
-## 当前外部依赖
+## 发布
 
-GitHub 连接器可读写已有仓库，但没有新建仓库和启用 Pages 的工具。本机没有 GitHub CLI 或可用 GitHub Git 凭据，内置浏览器访问 github.com 超时。
+用户已创建公开仓库 `LYTgogo/daily-word` 并将 Pages Source 设为 GitHub Actions。代码使用 GitHub 连接器上传，保留初始 README 提交作为父提交，无强制覆盖历史。
 
-已请求用户创建公开仓库（带初始 README）并将 Pages Source 设为 GitHub Actions。目前两个候选仓库 daily-word、daily-word-pwa 均未能通过连接器找到。不能将预计网址称为已经发布的网址。
+首次应用发布提交：`8afe8547a592c8283c64a46a8d1f16c8418369d6`。
+
+正式网址：https://lytgogo.github.io/daily-word/
+
+首次部署：https://github.com/LYTgogo/daily-word/actions/runs/35360674162
+
+本地 `published` 分支跟踪 `origin/main`，原 `main` 分支保留初始本地实现提交。

@@ -2,6 +2,10 @@
 
 面向 iPhone 的离线英语词汇 PWA。米白与绿色界面，每天学一点，间隔复习记得更久。
 
+**正式网址：[打开每日词记](https://lytgogo.github.io/daily-word/)**
+
+[GitHub 仓库](https://github.com/LYTgogo/daily-word) · [首次部署与测试记录](https://github.com/LYTgogo/daily-word/actions/runs/35360674162)
+
 ## 功能
 
 - 「四六级」「雅思托福」两个专区，四级、六级、雅思、托福各 150 个精选词。
