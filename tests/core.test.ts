@@ -50,6 +50,6 @@ test('day keys use local calendar dates',()=> assert.equal(dayKey(new Date(2026,
 test('backup round trip preserves progress and rejects malformed or foreign data',()=>{
  const s=answer(emptyState(),'adapt',true,'a','2026-09-18',false);
  assert.deepEqual(parseBackup(JSON.stringify(s),new Set(['adapt'])),s);
- for(const bad of ['{}','null',JSON.stringify({...s,version:2}),JSON.stringify({...s,settings:{deck:'cet4',dailyGoal:999}}),JSON.stringify({...s,progress:{adapt:{stage:-1,due:'tomorrow'}}})]) assert.throws(()=>parseBackup(bad,new Set(['adapt'])));
+ for(const bad of ['{}','null',JSON.stringify({...s,version:99}),JSON.stringify({...s,settings:{deck:'cet4',dailyGoal:999}}),JSON.stringify({...s,progress:{adapt:{stage:-1,due:'tomorrow'}}})]) assert.throws(()=>parseBackup(bad,new Set(['adapt'])));
  assert.throws(()=>parseBackup(JSON.stringify(s),new Set(['other'])));
 });
