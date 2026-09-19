@@ -1,0 +1,22 @@
+name: 功能建议
+description: 提出一个希望改进的学习体验
+title: "[建议] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: 想解决什么问题？
+      description: 描述你在什么场景下遇到困难。
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: 希望怎样改进？
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案或补充说明

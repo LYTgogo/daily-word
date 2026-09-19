@@ -6,6 +6,14 @@
 
 [GitHub 仓库](https://github.com/LYTgogo/daily-word) · [首次部署与测试记录](https://github.com/LYTgogo/daily-word/actions/runs/35360674162)
 
+## 一起完善每日词记
+
+欢迎提交问题、校对词库、改善界面或提供 iPhone 真机测试结果。请先阅读 [贡献指南](CONTRIBUTING.md)，从 [适合新人的任务](https://github.com/LYTgogo/daily-word/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22good%20first%20issue%22) 开始。
+
+参与方式：Fork → 创建分支并修改 → 提交 PR → 自动检查 → 维护者审核合并。无需申请仓库写入权限。普通用户的自定义词、备注与学习记录仍仅保存在本机，不会上传至 GitHub。
+
+本项目采用 [MIT 许可证](LICENSE)。欢迎在保留版权和许可声明的条件下使用、修改和再分发；第三方依赖遵循各自许可证。
+
 ## 功能
 
 - 「四六级」「雅思托福」两个专区，四级、六级、雅思、托福各 150 个精选词。
