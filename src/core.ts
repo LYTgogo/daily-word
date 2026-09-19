@@ -3,6 +3,7 @@ export const decks = ['cet4','cet6','ielts','toefl'] as const;
 export type Deck = typeof decks[number];
 export type Item = { wordId: string; token: string; retry: boolean };
 export type Progress = { stage: number; due: string; firstSeen: string };
+export const own = <T>(record:Record<string,T>,id:string):T|undefined => Object.hasOwn(record,id)?record[id]:undefined;
 export type State = {
  version: 2; settings: { deck: Deck; dailyGoal: number };
  customWords: Word[]; notes: Record<string,string>;
@@ -36,7 +37,7 @@ export const dayKey = (date = new Date()): string => `${date.getFullYear()}-${St
 const later = (day: string, days: number) => { const [y,m,d]=day.split('-').map(Number); return dayKey(new Date(y,m-1,d+days,12)); };
 export function answer(state: State,id: string,remembered: boolean,token: string,day: string,retry: boolean): State {
  if(state.answered.includes(token)) return state;
- const s=structuredClone(state), old=s.progress[id];
+ const s=structuredClone(state), old=own(s.progress,id);
  const record=s.days[day] ??= {completed:[],newWords:[]};
  if(!old) record.newWords.push(id);
  if(!record.completed.includes(id)) record.completed.push(id);
@@ -49,9 +50,9 @@ export function answer(state: State,id: string,remembered: boolean,token: string
 }
 export function makeSession(state: State,words: {id:string;decks:readonly string[]}[],deck: Deck,day: string): Item[] {
  const selected=words.filter(w=>w.decks.includes(deck));
- const due=selected.filter(w=>state.progress[w.id]?.due <= day).sort((a,b)=>state.progress[a.id].due.localeCompare(state.progress[b.id].due));
+ const due=selected.filter(w=>(own(state.progress,w.id)?.due ?? '9999-99-99') <= day).sort((a,b)=>state.progress[a.id].due.localeCompare(state.progress[b.id].due));
  const allowance=Math.max(0,state.settings.dailyGoal-(state.days[day]?.newWords.length ?? 0));
- const fresh=selected.filter(w=>!state.progress[w.id]).slice(0,allowance);
+ const fresh=selected.filter(w=>!own(state.progress,w.id)).slice(0,allowance);
  return [...due,...fresh].map(w=>({wordId:w.id,token:crypto.randomUUID(),retry:false}));
 }
 export function submitSession(state: State,remembered: boolean,day: string): State {
@@ -85,13 +86,13 @@ export function parseBackup(raw: string,ids: Set<string>): State {
  for(const [id,p] of Object.entries(s.progress)) if(!ids.has(id)||!obj(p)||!Number.isInteger(p.stage)||p.stage<0||p.stage>5||!date(p.due)||!date(p.firstSeen)||p.due<p.firstSeen) return fail();
  for(const [day,r] of Object.entries(s.days)) {
   if(!date(day)||!obj(r)||!idList(r.completed)||!idList(r.newWords)) return fail();
-  if(r.newWords.some((id:string)=>!r.completed.includes(id)||s.progress[id]?.firstSeen!==day)||r.completed.some((id:string)=>!s.progress[id])) return fail();
+  if(r.newWords.some((id:string)=>!r.completed.includes(id)||s.progress[id]?.firstSeen!==day)||r.completed.some((id:string)=>!Object.hasOwn(s.progress,id))) return fail();
  }
  if(s.session!==null) {
   if(!obj(s.session)||!date(s.session.day)||!decks.includes(s.session.deck)||!Array.isArray(s.session.queue)) return fail();
   const tokens=new Set<string>();
   for(const i of s.session.queue) {
-   if(!obj(i)||!ids.has(i.wordId)||typeof i.token!=='string'||!i.token||typeof i.retry!=='boolean'||tokens.has(i.token)||s.answered.includes(i.token)||(i.retry&&!s.progress[i.wordId])) return fail();
+   if(!obj(i)||!ids.has(i.wordId)||typeof i.token!=='string'||!i.token||typeof i.retry!=='boolean'||tokens.has(i.token)||s.answered.includes(i.token)||(i.retry&&!Object.hasOwn(s.progress,i.wordId))) return fail();
    tokens.add(i.token);
   }
  }
