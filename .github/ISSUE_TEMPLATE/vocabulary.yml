@@ -1,0 +1,26 @@
+name: 词库校对
+description: 指出词义、词性、例句或翻译问题
+title: "[词库] "
+labels: [documentation]
+body:
+  - type: input
+    id: word
+    attributes:
+      label: 单词与所属词库
+      placeholder: adapt / 四级
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: 当前问题与建议修改
+      description: 尽量同时提供英文例句及中文翻译。
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 原创或授权情况、参考来源
+      description: 自行编写请注明原创；有参考资料请提供链接，不要复制商业词典内容。
+    validations:
+      required: true
